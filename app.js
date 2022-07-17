@@ -9,7 +9,7 @@ app.get('/', (req,res) => {
         res.send('Weekend, boo!');
     }
     else {
-        res.send('Weekdays, YAY');
+        res.sendFile(__dirname + '/index.html');
     }
     
 })
