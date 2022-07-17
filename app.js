@@ -3,38 +3,55 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
+//Functionality MODULES
+const date = require(__dirname + '/date.js');
+
+
 //GLobal VARS
-let todoList = [];
+const todoList = [];
+const workList = [];
 
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static("public"));
+
+//HOME ROUTE
 
 app.get('/', (req,res) => {
-    const mydate = get_date();
+    const mydate = date.get_date();
     //Render ejs list page
     res.render('list', {currentDay: mydate, itemList: todoList});
 })
 
 app.post('/', (req,res) => {
+
     const input = req.body.inputtxt;
-    todoList.push(input);
-    console.log('Added ' + input);
-    res.redirect('/'); 
+
+    if (req.body.addbtn === 'Work') {
+        console.log('Added ' + input + ' into Work List');
+        workList.push(input);
+        res.redirect('/work');
+    }
+    else {
+        console.log('Added ' + input + ' into To Do List');
+        todoList.push(input);
+        res.redirect('/');
+    }
+})
+
+//WORK PAGE
+
+app.get('/work', (req,res) => {
+    res.render('list', {currentDay: 'Work', itemList : workList});
+})
+
+//ABOUT PAGE
+app.get('/about', (req,res) => {
+    res.render('about');
 })
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
 });
 
-//Functionality 
-const get_date = () => {
-    const today = new Date ();
-    const options = {
-        day: 'numeric',
-        weekday: 'long',
-        month: 'long'
-    }
-    const day = today.toLocaleString('en-US', options);
-    return day;
-}

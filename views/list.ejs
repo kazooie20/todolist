@@ -1,25 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rayner Do List</title>
-</head>
-<body>
-    <h1><%= currentDay %></h1>
-
-    <form action="/" method="POST">
-        <input type="text" name="inputtxt" placeholder="What i need to do" />
-        <button type="submit" name="addbtn">Add</button>
-    </form>
-
-    <ul>
-        <% itemList.forEach(item => { %>
-            <li><%=item%></li>
-        <% }); %>
-    </ul>
+<%- include('header') -%> 
+    <div class="box" id="heading">
+        <h1><%= currentDay %></h1>
+    </div>
     
-</body>
-</html>
+    <div class="box">
+        <div class="item">
+            
+            <% itemList.forEach(item => { %>
+                <div class="item2">
+                    <input type="checkbox">
+                    <p><%=item%></p>
+                </div>
+                
+            <% }); %>
+        </div>
+
+        <form class='item' action="/" method="POST">
+            <div class='item-cont'>
+                <input type="text" name="inputtxt" placeholder="What i need to do" />
+                <button type="submit" name="addbtn" value="<%=currentDay%>">+</button>
+            </div>
+            
+        </form>
+    </div>
+
+<%- include('footer') -%> 
+    
+
+    
+
 
