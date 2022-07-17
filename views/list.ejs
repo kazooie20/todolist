@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
+    <title>Rayner Do List</title>
 </head>
 <body>
-    <h1>It's a <%=day%>!</h1>
-    <p>Why are you not working?</p>
+    <h1><%= currentDay %></h1>
+
+    <form action="/" method="POST">
+        <input type="text" name="inputtxt" placeholder="What i need to do" />
+        <button type="submit" name="addbtn">Add</button>
+    </form>
+
+    <ul>
+        <% itemList.forEach(item => { %>
+            <li><%=item%></li>
+        <% }); %>
+    </ul>
     
 </body>
 </html>
+

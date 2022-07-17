@@ -1,32 +1,40 @@
+//Express & body parser 
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const app = express();
 
-app.use('view engine', 'ejs');
+//GLobal VARS
+let todoList = [];
+
+app.set('view engine', 'ejs');
+
+app.use(bodyParser.urlencoded({extended:true}));
 
 app.get('/', (req,res) => {
-    const currentDay = get_date();
-    let day = '';
-    if (currentDay === 6 || currentDay === 0) {
-        day = 'weekend';
-    }
+    const mydate = get_date();
+    //Render ejs list page
+    res.render('list', {currentDay: mydate, itemList: todoList});
+})
 
-    else {
-        day = 'weekday';
-    }
-
-    res.render('list', {day: currentDay });
+app.post('/', (req,res) => {
+    const input = req.body.inputtxt;
+    todoList.push(input);
+    console.log('Added ' + input);
+    res.redirect('/'); 
 })
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
 });
 
-
-//FUNCTIONS//
-
+//Functionality 
 const get_date = () => {
     const today = new Date ();
-    const day = today.getDay();
+    const options = {
+        day: 'numeric',
+        weekday: 'long',
+        month: 'long'
+    }
+    const day = today.toLocaleString('en-US', options);
     return day;
 }
